@@ -12,27 +12,29 @@ import pool.MySqlPoolManager;
 public class BoardDAO {
 	MySqlPoolManager pool = MySqlPoolManager.getInstance();
 	
-	// List È£Ãâ
-	public List selectAll(){
-		Connection con = null;
+	// List í˜¸ì¶œ
+	public List<BoardDTO> selectAll(){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-		con = pool.getConnection();
 		
-		String sql = "select * from board order by board desc";
-		
+		Connection con = pool.getConnection();
 		try {
+			
+			System.out.println("connect check");
+			String sql = "select * from boardproject.board order by idx desc";
+			
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
+			
 			
 			while(rs.next()){
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setIdx				(rs.getInt("idx"));
 				dto.setWriter			(rs.getString("writer"));
-				dto.setTitle				(rs.getString("title"));
-				dto.setRegdate		(rs.getString("regdate"));
+				dto.setTitle			(rs.getString("title"));
+				dto.setRegdate			(rs.getString("regdate"));
 				dto.setHit				(rs.getInt("hit"));
 				
 				list.add(dto);				
@@ -45,7 +47,7 @@ public class BoardDAO {
 		return list;
 	}
 	
-	// °Ô½Ã¹° ÇÑ °Ç °¡Á®¿À±â
+	// ê²Œì‹œë¬¼ í•œ ê±´ ê°€ì ¸ì˜¤ê¸°
 	public BoardDTO selectByIdx(int idx){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -78,7 +80,7 @@ public class BoardDAO {
 		return dto;
 	}
 	
-	// ±Û¾²±â
+	// ê¸€ì“°ê¸°
 	public int insert(BoardDTO dto){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -158,23 +160,5 @@ public class BoardDAO {
 		
 		return result;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

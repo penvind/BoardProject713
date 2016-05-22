@@ -1,28 +1,13 @@
 package pool;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 public class MySqlPoolManager {
 	private static MySqlPoolManager instance;
-	InitialContext initCtx;
-	DataSource ds;
-	
-	public MySqlPoolManager() {
-		try {
-			initCtx = new InitialContext();
-			ds = (DataSource) initCtx.lookup("java:comp/env/jdbc/mySQL");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-		
-	}
 
 	public static MySqlPoolManager getInstance(){
 		if(instance == null){
@@ -35,15 +20,15 @@ public class MySqlPoolManager {
 		Connection con = null;
 		
 		try {
-			con = ds.getConnection();
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("e : "+ e);
 		}
-		
 		return con;
 	}
 	
-	// »ç¿ëÈÄ ¹Ý³³ DMLÀÏ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý³ï¿½ DMLï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void freeConnection(Connection con, PreparedStatement pstmt){
 		if (pstmt != null){
 			try {
