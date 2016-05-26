@@ -20,13 +20,10 @@ public class BoardDAO {
 		
 		Connection con = pool.getConnection();
 		try {
-			
-			System.out.println("connect check");
 			String sql = "select * from boardproject.board order by idx desc";
 			
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
 			
 			while(rs.next()){
 				BoardDTO dto = new BoardDTO();
@@ -55,24 +52,29 @@ public class BoardDAO {
 		con = pool.getConnection();
 		BoardDTO dto = null;
 		
-		String sql = "select * from board where idx=?";
+//		System.out.println("selectIDX check");
+		
+		String sql = "select * from boardproject.board where idx=?";
 		
 		try {
+//			System.out.println("selectIDX try");
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
+			
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
 				dto = new BoardDTO();
 				
-				dto.setIdx				(rs.getInt("idx"));
-				dto.setWriter			(rs.getString("writer"));
-				dto.setTitle				(rs.getString("title"));
+				dto.setIdx			(rs.getInt("idx"));
+				dto.setWriter		(rs.getString("writer"));
+				dto.setTitle		(rs.getString("title"));
 				dto.setContent		(rs.getString("content"));
 				dto.setRegdate		(rs.getString("regdate"));
-				dto.setHit				(rs.getInt("hit"));
+				dto.setHit			(rs.getInt("hit"));
 			}
-			
 		} catch (SQLException e) {
+			System.out.println("SQL e : " + e);
 			e.printStackTrace();
 		} finally{
 			pool.freeConnection(con, pstmt, rs);
@@ -87,7 +89,7 @@ public class BoardDAO {
 		con = pool.getConnection();
 		int result = 0;
 		
-		String sql = "insert into board(writer,title,content,regdate)";
+		String sql = "insert into boardproject.board(writer,title,content,regdate)";
 		sql = sql + " values(?,?,?,now())";
 		
 		try {
@@ -130,7 +132,7 @@ public class BoardDAO {
 		con = pool.getConnection();
 		int result = 0;
 		
-		String sql = "delete from board where idx=?";
+		String sql = "delete from boardproject.board where idx=?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -150,8 +152,8 @@ public class BoardDAO {
 		con = pool.getConnection();
 		int result = 0;
 		
-		String sql = "update board set writer=? title=? content=?";
-		
+		String sql = "update boardproject.board set writer=? title=? content=?";
+//		sql = "update boardproject.board set hit=hit+1 where idx=idx";
 		try {
 			pstmt = con.prepareStatement(sql);
 		} catch (SQLException e) {

@@ -21,6 +21,7 @@ public class MySqlPoolManager {
 		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
+//			System.out.println("getConnection Success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("e : "+ e);

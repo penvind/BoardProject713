@@ -9,9 +9,7 @@
 <%! BoardDAO dao = new BoardDAO(); %>
 
 <%
-//	ArrayList<BoardDTO> list = (ArrayList)dao.selectAll();
-
-	ArrayList<BoardDTO> list = (ArrayList)dao.selectAll();
+	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)dao.selectAll();
 	int TotalRecord = list.size();  //게시글의 총 개수
 	
 	int CurrentPage = 1;    //현재 페이지
@@ -32,8 +30,6 @@
 	int num    = TotalRecord - curPos;
 	
 	BoardDAO dao = new BoardDAO();
-	
-	
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -78,7 +74,7 @@
 		  <%BoardDTO dto = list.get(curPos++); %>
 		    <tr align="center" height="20px" onMouseOver="this.style.background='#FFFF99'" onMouseOut="this.style.background=''">
 			  <td width="50"><%=num--%></td>
-			  <td width="303"><a href="detail.jsp"><%=dto.getTitle() %></a></td>
+			  <td width="303"><a href="detail.jsp?idx=<%=dto.getIdx() %>"><%=dto.getTitle() %></a></td>
 			  <td width="100"><%=dto.getWriter() %></td>
 			  <td width="100"><%=dto.getRegdate() %></td>
 			  <td width="50"><%=dto.getHit() %></td>
@@ -119,7 +115,7 @@
     </table></td>
   </tr>
   <tr>
-    <td height="30" colspan="5" align="right" style="padding-right:2px;"><a href="write.jsp"><img src="WebContent/images/write_btin.gif" width="61" height="20" border="0"></a></td>
+    <td height="30" colspan="5" align="right" style="padding-right:2px;"><a href="write.jsp"><img src="images/write_btin.gif" width="61" height="20" border="0"></a></td>
   </tr>
   <tr>
     <td height="1" colspan="5" bgcolor="#CCCCCC"></td>
