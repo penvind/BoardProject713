@@ -12,7 +12,7 @@ import pool.MySqlPoolManager;
 public class BoardDAO {
 	MySqlPoolManager pool = MySqlPoolManager.getInstance();
 	
-	// List 호출
+	// List �샇異�
 	public List<BoardDTO> selectAll(){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -20,18 +20,21 @@ public class BoardDAO {
 		
 		Connection con = pool.getConnection();
 		try {
+			System.out.println("con : " + con);
 			String sql = "select * from boardproject.board order by idx desc";
 			
 			pstmt = con.prepareStatement(sql);
+			System.out.println("pstmt : "+ pstmt);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
+				System.out.println("Result : " + rs);
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setIdx				(rs.getInt("idx"));
 				dto.setWriter			(rs.getString("writer"));
-				dto.setTitle			(rs.getString("title"));
-				dto.setRegdate			(rs.getString("regdate"));
+				dto.setTitle				(rs.getString("title"));
+				dto.setRegdate		(rs.getString("regdate"));
 				dto.setHit				(rs.getInt("hit"));
 				
 				list.add(dto);				
@@ -44,7 +47,7 @@ public class BoardDAO {
 		return list;
 	}
 	
-	// 게시물 한 건 가져오기
+	// 寃뚯떆臾� �븳 嫄� 媛��졇�삤湲�
 	public BoardDTO selectByIdx(int idx){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -82,7 +85,7 @@ public class BoardDAO {
 		return dto;
 	}
 	
-	// 글쓰기
+	// 湲��벐湲�
 	public int insert(BoardDTO dto){
 		Connection con = null;
 		PreparedStatement pstmt = null;

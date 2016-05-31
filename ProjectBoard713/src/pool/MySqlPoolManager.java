@@ -21,7 +21,7 @@ public class MySqlPoolManager {
 		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
-//			System.out.println("getConnection Success");
+			System.out.println("getConnection Success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("e : "+ e);
@@ -29,7 +29,6 @@ public class MySqlPoolManager {
 		return con;
 	}
 	
-	// ����� �ݳ� DML�� ���
 	public void freeConnection(Connection con, PreparedStatement pstmt){
 		if (pstmt != null){
 			try {

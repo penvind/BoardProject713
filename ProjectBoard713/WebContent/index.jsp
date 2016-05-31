@@ -1,6 +1,6 @@
 <%@page import="model.BoardDTO"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="model.BoardDAO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>

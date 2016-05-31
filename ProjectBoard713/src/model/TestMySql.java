@@ -25,7 +25,7 @@ public class TestMySql {
 			st = con.prepareStatement(sql);
 			rs = st.executeQuery();
 
-			if (st.execute("show tables")) {
+			if (st.execute("select * from board")) {
 				rs = st.getResultSet();
 			}
 
