@@ -29,7 +29,6 @@
 	int curPos = (CurrentPage-1) * PageSize;
 	int num    = TotalRecord - curPos;
 	
-	BoardDAO dao = new BoardDAO();
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -46,13 +45,13 @@
 </script>
 </head>
 <body onload="init()">
-<form name="list" method="get" action="main.jsp">
+<form name="list" method="get" action="index.jsp">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td colspan="5"><img src="WebContent/images/ceil.gif" width="603" height="25"></td>
+    <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
   </tr>
   <tr>
-    <td height="2" colspan="5" bgcolor="#6395FA"><img src="WebContent/images/line_01.gif"></td>
+    <td height="2" colspan="5" bgcolor="#6395FA"><img src="images/line_01.gif"></td>
   </tr>
   <tr id="title" align="center">
     <td width="50" height="20">번호</td>
@@ -81,7 +80,7 @@
 		    </tr>
 			<% } %>
 			<tr>
-				<td height="1" colspan="5" background="WebContent/images/line_dot.gif"></td>
+				<td height="1" colspan="5" background="images/line_dot.gif"></td>
 			</tr>
 		  </table>		
 		  </td>
@@ -89,12 +88,12 @@
   <tr>
    
     <td id="paging" height="20" colspan="5" align="center">  
-    	<a href="main.jsp?CurrentPage=<%=FirstBlock-1%>"> ◀ </a>
+    	<a href="index.jsp?CurrentPage=<%=FirstBlock-1%>"> ◀ </a>
     	<% for(int i=FirstBlock; i<=LastBlock; i++){ %>
     		<%if(i>TotalPage) break; %>
-    		<a href="main.jsp?CurrentPage=<%=i%>">[<%=i%>]</a> 
+    		<a href="index.jsp?CurrentPage=<%=i%>">[<%=i%>]</a> 
    		<% } %>
-   		<a href="main.jsp?CurrentPage=<%=LastBlock+1%>"> ▶ </a> 
+   		<a href="index.jsp?CurrentPage=<%=LastBlock+1%>"> ▶ </a> 
    	</td>
   
   </tr>
@@ -110,7 +109,7 @@
           </select>        </td>
         <td width="80">
           <input name="textfield" id="keyword" type="text" size="15">        </td>
-        <td><img src="WebContent/images/search_btn.gif" width="32" height="17"></td>
+        <td><img src="images/search_btn.gif" width="32" height="17"></td>
       </tr>
     </table></td>
   </tr>

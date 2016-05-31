@@ -23,7 +23,7 @@ input{
 width:503px;
 border:0;
 height:153;
-background:url("/board/images/write_bg.gif");
+background:url("images/write_bg.gif");
 border:#C3C3C3 1px solid 
 }
 #copyright{font-size:9pt;}
@@ -55,7 +55,7 @@ function commit(){
 <form id="form1" method="post">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td><img src="/board/images/ceil.gif" width="603" height="25"></td>
+    <td><img src="images/ceil.gif" width="603" height="25"></td>
   </tr>
   <tr>
     <td height="2" bgcolor="#6395FA"><img src="images/line_01.gif"></td>

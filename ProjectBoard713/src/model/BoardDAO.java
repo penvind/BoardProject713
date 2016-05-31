@@ -135,6 +135,8 @@ public class BoardDAO {
 		String sql = "delete from boardproject.board where idx=?";
 		
 		try {
+			System.out.println("delete check");
+			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			result = pstmt.executeUpdate();
@@ -148,18 +150,32 @@ public class BoardDAO {
 	public int update(BoardDTO dto){
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		con = pool.getConnection();
 		int result = 0;
 		
-		String sql = "update boardproject.board set writer=? title=? content=?";
-//		sql = "update boardproject.board set hit=hit+1 where idx=idx";
+		String sql = "update boardproject.board set writer=?, title=?, content=? where idx=?";
+
 		try {
+			System.out.println("update check");
 			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getWriter());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			
+			pstmt.setInt(4, dto.getIdx());
+			
+			System.out.println("pstmt : " + pstmt);
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println("result :" + result);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
 		}
-		
 		return result;
 	}
 	
