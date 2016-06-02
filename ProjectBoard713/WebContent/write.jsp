@@ -1,8 +1,6 @@
-<%@page import="model.BoardDAO"%>
-<%@page import="model.BoardDTO"%>
+<%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<% BoardDTO dto = new BoardDTO(); %>
 <html>
 <head>
 <title>Untitled Document</title>
@@ -46,7 +44,7 @@ function commit(){
 		form1.content.focus();
 		return;
 	}
-		form1.action="write_act.jsp"; 
+		form1.action="write.do"; 
 		form1.submit();
 }
 </script>
@@ -89,7 +87,7 @@ function commit(){
 	</tr>
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
-	<!-- <img src="images/commit.gif" width="61" height="20" onclick="commit()"> -->
+	<img src="images/commit.gif" width="61" height="20" onclick="commit()"> 
 	<button onclick="commit()"> 등록 </button>
 	<a href="index.jsp"><img src="images/list_btn.gif" width="61" height="20" border="0"></a> </td>
   </tr>

@@ -1,4 +1,4 @@
-package model;
+package board.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,28 +7,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import pool.MySqlPoolManager;
-
 public class BoardDAO {
-	MySqlPoolManager pool = MySqlPoolManager.getInstance();
+	Connection con;
+
+	public BoardDAO(Connection con) {
+		this.con = con;
+	}
 	
-	// List �샇異�
-	public List<BoardDTO> selectAll(){
+	// List �샇?���?
+	public List<BoardDTO> selectAll() throws Exception{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 		
-		Connection con = pool.getConnection();
 		try {
-			System.out.println("con : " + con);
 			String sql = "select * from boardproject.board order by idx desc";
 			
 			pstmt = con.prepareStatement(sql);
-			System.out.println("pstmt : "+ pstmt);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				System.out.println("Result : " + rs);
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setIdx				(rs.getInt("idx"));
@@ -41,21 +39,16 @@ public class BoardDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
-			pool.freeConnection(con, pstmt, rs);
 		}
 		return list;
 	}
 	
-	// 寃뚯떆臾� �븳 嫄� 媛��졇�삤湲�
-	public BoardDTO selectByIdx(int idx){
-		Connection con = null;
+	// 寃뚯?��?���? �븳 嫄� 媛��졇�삤湲�
+	public BoardDTO selectByIdx(int idx) throws Exception{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		con = pool.getConnection();
 		BoardDTO dto = null;
 		
-//		System.out.println("selectIDX check");
 		
 		String sql = "select * from boardproject.board where idx=?";
 		
@@ -71,33 +64,43 @@ public class BoardDAO {
 				
 				dto.setIdx			(rs.getInt("idx"));
 				dto.setWriter		(rs.getString("writer"));
-				dto.setTitle		(rs.getString("title"));
-				dto.setContent		(rs.getString("content"));
-				dto.setRegdate		(rs.getString("regdate"));
+				dto.setTitle			(rs.getString("title"));
+				dto.setContent	(rs.getString("content"));
+				dto.setRegdate	(rs.getString("regdate"));
 				dto.setHit			(rs.getInt("hit"));
 			}
+			
 		} catch (SQLException e) {
 			System.out.println("SQL e : " + e);
 			e.printStackTrace();
-		} finally{
-			pool.freeConnection(con, pstmt, rs);
+		}finally{
+			if(pstmt != null){
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return dto;
 	}
 	
 	// 湲��벐湲�
-	public int insert(BoardDTO dto){
-		Connection con = null;
+	public int insert(BoardDTO dto) throws Exception{
 		PreparedStatement pstmt = null;
-		con = pool.getConnection();
 		int result = 0;
 		
 		String sql = "insert into boardproject.board(writer,title,content,regdate)";
 		sql = sql + " values(?,?,?,now())";
 		
 		try {
-			con.setAutoCommit(false);
-			
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getWriter());
@@ -108,31 +111,23 @@ public class BoardDAO {
 			
 			System.out.println("reslut : " + result);
 			
-			con.commit();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				con.rollback();
-				result = 0;
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}finally{
-			try {
-				con.setAutoCommit(true);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if(pstmt != null){
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
-			pool.freeConnection(con, pstmt);
 		}
 		return result;
 	}
 	
-	public int delete(int idx){
-		Connection con = null;
+	public int delete(int idx) throws Exception{
 		PreparedStatement pstmt = null;
-		con = pool.getConnection();
 		int result = 0;
 		
 		String sql = "delete from boardproject.board where idx=?";
@@ -150,10 +145,8 @@ public class BoardDAO {
 		return result;
 	}
 	
-	public int update(BoardDTO dto){
-		Connection con = null;
+	public int update(BoardDTO dto) throws Exception{
 		PreparedStatement pstmt = null;
-		con = pool.getConnection();
 		int result = 0;
 		
 		String sql = "update boardproject.board set writer=?, title=?, content=? where idx=?";
@@ -176,9 +169,7 @@ public class BoardDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt);
-		}
+		} 
 		return result;
 	}
 	

@@ -1,17 +1,12 @@
-<%@page import="model.BoardDAO"%>
-<%@page import="model.BoardDTO"%>
+<%@page import="board.model.BoardDTO"%>
+<%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 
 
-<%! BoardDAO dao = new BoardDAO();%>
 <% 
-	int idx = Integer.parseInt(request.getParameter("idx"));
-
-// 	out.print(idx);
-	BoardDTO dto = dao.selectByIdx(idx);
-	
+	BoardDTO dto = (BoardDTO)request.getAttribute("dto");
 %>
 
 <html>
@@ -44,13 +39,14 @@ img{border:0px}
 <script>
 	function deleteCheck(){
 		if(confirm("정말 삭제하시겠습니까?")){
-			location.href="delete.jsp?idx=<%=idx%>";
-		};
+			 location.href="/delete.do?idx=<%=dto.getIdx()%>";
+		}
 	}
 </script>
 </head>
 <body>
-<input type="hidden" name="idx" value="<%=idx%>">
+<form name="form1" method="post">
+<input type="hidden" name="idx" value="<%=dto.getIdx()%>">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td><img src="images/ceil.gif" width="603" height="25"></td>
@@ -87,9 +83,9 @@ img{border:0px}
 	</tr>
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
-	<a href="update.jsp?idx=<%=idx%>"><img src="images/edit_btn.gif" width="61" height="20"></a>
+	<a href="update.do?idx=<%=dto.getIdx()%>"><img src="images/edit_btn.gif" width="61" height="20"></a>
 	<img src="images/delete_btn.gif" width="61" height="20" onClick="deleteCheck()">
-	<a href="index.jsp"><img src="images/list_btn.gif" width="61" height="20" border="0"></a> </td>
+	<a href="index.do"><img src="images/list_btn.gif" width="61" height="20" border="0"></a> </td>
   </tr>
   <tr>
     <td height="1" bgcolor="#CCCCCC"></td>
@@ -98,6 +94,7 @@ img{border:0px}
     <td height="20" align="center" id="copyright">Copyright zino All Rights Reserved </td>
   </tr>
 </table>
+</form>
 </body>
 </html>
 	

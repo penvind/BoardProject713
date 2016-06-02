@@ -1,34 +1,12 @@
-<%@page import="model.BoardDTO"%>
-<%@page import="model.BoardDAO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.util.List"%>
+<%@page import="board.common.PageUtil"%>
+<%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
-<%! BoardDAO dao = new BoardDAO(); %>
-
+<%! PageUtil pg = new PageUtil(); %>
 <%
-	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)dao.selectAll();
-	int TotalRecord = list.size();  //게시글의 총 개수
-	
-	int CurrentPage = 1;    //현재 페이지
-	int PageSize = 10;      //한 페이지당 보여질 글의 개수
-	int BlockSize = 10;     //한번에 보여질 블럭(페이지 분할) 개수
+   List<BoardDTO> list = (List)request.getAttribute("index");
+   pg.init(list.size(), request);
 
-	if(request.getParameter("CurrentPage") != null){
-		CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
-	}
-	
-	int TotalPage =  (int) Math.ceil((float)TotalRecord/PageSize);		   // 게시글 총 개수 % 한페이지에 보여질 블록 개수 
-	int FirstBlock = CurrentPage - ((CurrentPage-1) % BlockSize);       
-	int LastBlock  = FirstBlock + (BlockSize-1);                       
-	
-	out.print("CurrentPage = " + CurrentPage);
-	
-	int curPos = (CurrentPage-1) * PageSize;
-	int num    = TotalRecord - curPos;
-	
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -39,13 +17,14 @@
 @IMPORT url("WebContent/site.css");
 </style>
 <script>
-	function init(){
-		list.action();
-	}
+  /*
+  	function init(){
+      list.action();
+   } 
+  */
 </script>
 </head>
 <body onload="init()">
-<form name="list" method="get" action="index.jsp">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -61,45 +40,48 @@
     <td width="50" height="20">조회수</td>
   </tr>
   <tr>
-  	
+     
     <td height="1" colspan="5" bgcolor="#CCCCCC"></td>
   </tr>
-	<tr>	
-		<td colspan="5" id="list">
-		
-		  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-		  <% for(int i=1; i<=PageSize; i++){ %>
-		  <%if(num<1) break; %>
-		  <%BoardDTO dto = list.get(curPos++); %>
-		    <tr align="center" height="20px" onMouseOver="this.style.background='#FFFF99'" onMouseOut="this.style.background=''">
-			  <td width="50"><%=num--%></td>
-			  <td width="303"><a href="detail.jsp?idx=<%=dto.getIdx() %>"><%=dto.getTitle() %></a></td>
-			  <td width="100"><%=dto.getWriter() %></td>
-			  <td width="100"><%=dto.getRegdate() %></td>
-			  <td width="50"><%=dto.getHit() %></td>
-		    </tr>
-			<% } %>
-			<tr>
-				<td height="1" colspan="5" background="images/line_dot.gif"></td>
-			</tr>
-		  </table>		
-		  </td>
-	</tr>
+   <tr>   
+      <td colspan="5" id="list">
+      <%
+         int num = pg.getNum();
+         int curPos = pg.getCurPos(); 
+      %>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <% for(int i=1; i<=pg.getPageSize(); i++){ %>
+        <%if(num<1) break; %>
+        <%BoardDTO dto = list.get(curPos++); %>
+          <tr align="center" height="20px" onMouseOver="this.style.background='#FFFF99'" onMouseOut="this.style.background=''">
+           <td width="50"><%=num--%></td>
+           <td width="303"><a href="detail.do?idx=<%=dto.getIdx() %>"><%=dto.getTitle() %></a></td>
+           <td width="100"><%=dto.getWriter() %></td>
+           <td width="100"><%=dto.getRegdate() %></td>
+           <td width="50"><%=dto.getHit() %></td>
+          </tr>
+         <% } %>
+         <tr>
+            <td height="1" colspan="5" background="images/line_dot.gif"></td>
+         </tr>
+        </table>      
+        </td>
+   </tr>
   <tr>
    
     <td id="paging" height="20" colspan="5" align="center">  
-    	<a href="index.jsp?CurrentPage=<%=FirstBlock-1%>"> ◀ </a>
-    	<% for(int i=FirstBlock; i<=LastBlock; i++){ %>
-    		<%if(i>TotalPage) break; %>
-    		<a href="index.jsp?CurrentPage=<%=i%>">[<%=i%>]</a> 
-   		<% } %>
-   		<a href="index.jsp?CurrentPage=<%=LastBlock+1%>"> ▶ </a> 
-   	</td>
-  
+       <a href="index.jsp?CurrentPage=<%=pg.getFirstBlock()-1%>"> ◀ </a>
+       <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %>
+          <%if(i>pg.getTotalPage()) break; %>
+          <a href="index.jsp?CurrentPage=<%=i%>">[<%=i%>]</a> 
+         <% } %>
+         <a href="index.jsp?CurrentPage=<%=pg.getLastBlock()+1%>"> ▶ </a> 
+      </td>
+     
   </tr>
   <tr>
     <td height="20" colspan="5" align="right" style="padding-right:2px;">
-	<table width="160" border="0" cellpadding="0" cellspacing="0">
+   <table width="160" border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td width="70">
           <select name="select" id="category">
@@ -123,6 +105,5 @@
     <td height="20" colspan="5" align="center" id="copyright">Copyright  All Rights Reserved </td>
   </tr>
 </table>
-</form>
 </body>
 </html>

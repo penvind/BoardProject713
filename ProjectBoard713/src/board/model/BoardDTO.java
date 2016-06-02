@@ -1,4 +1,4 @@
-package model;
+package board.model;
 
 public class BoardDTO {
 	private int idx;
