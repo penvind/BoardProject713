@@ -18,12 +18,10 @@ public class MySqlPoolManager {
 
 	public Connection getConnection(){
 		Connection con = null;
-		System.out.println("getConnection try");
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
-			System.out.println("con : "+ con);
 			System.out.println("getConnection Success");
 		} catch (Exception e) {
 			e.printStackTrace();

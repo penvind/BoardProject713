@@ -56,7 +56,7 @@ public class ApplicationContext extends HttpServlet{
 			controllerClass 		= Class.forName(controllerName);
 			System.out.println("controllerClass : " + controllerClass);
 			Controller controller 	= (Controller) controllerClass.newInstance();
-			String resultKey 		= controller.execute(req, res);
+			String resultKey 		= controller.execute(req);
 			String resultPage 		= props.getProperty(resultKey);		// key값으로 검색
 
 			System.out.println("controller : " + controller);

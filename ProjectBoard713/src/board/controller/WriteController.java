@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import board.model.BoardDTO;
 import board.model.BoardService;
@@ -16,7 +15,7 @@ public class WriteController implements Controller {
 	String resultKey;
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res)
+	public String execute(HttpServletRequest req)
 			throws ServletException, IOException {
 		BoardDTO dto = new BoardDTO();
 		dto.setWriter(req.getParameter("writer"));

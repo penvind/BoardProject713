@@ -4,18 +4,16 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import controller.Controller;
-import board.model.BoardDTO;
 import board.model.BoardService;
+import controller.Controller;
 
 public class DeleteController implements Controller{
 	BoardService service = BoardService.getInstance();
 	String resultKey;
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res)
+	public String execute(HttpServletRequest req)
 			throws ServletException, IOException {
 		int idx = Integer.parseInt(req.getParameter("idx"));
 		

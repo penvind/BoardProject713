@@ -2,17 +2,22 @@
 /test/result=/testResult.jsp
 
 
-
 #게시판 컨트롤러 매핑
 /write.do = board.controller.WriteController
 /index.do = board.controller.IndexController
 /detail.do = board.controller.DetailController
 /delete.do = board.controller.DeleteController
+/update.do = board.controller.UpdateController
 
-#게시판 뷰 매핑
-/result/write = /index.do
+#게시판 뷰 매핑 (포워드)
 /result/index = /index.jsp
 /result/detail = /detail.jsp
+/result/updatePage = /update.jsp
+/result/update = /detail.jsp
+
+#게시판 뷰 매핑(리다이렉트)
+/result/write = /index.do	
 /result/delete = /index.do
+
 #게시판 에러 매핑
 /error = /error.jsp

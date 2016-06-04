@@ -1,12 +1,13 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import board.model.BoardDTO;
 import board.model.BoardService;
 import controller.Controller;
 
@@ -15,9 +16,9 @@ public class IndexController implements Controller{
 	String resultKey;
 	
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse res)
+	public String execute(HttpServletRequest req)
 			throws ServletException, IOException {
-		List list = null;
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		
 		try {
 			list = service.selectAll();

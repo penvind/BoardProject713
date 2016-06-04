@@ -3,8 +3,6 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
-
-
 <% 
 	BoardDTO dto = (BoardDTO)request.getAttribute("dto");
 %>
@@ -47,6 +45,7 @@ img{border:0px}
 <body>
 <form name="form1" method="post">
 <input type="hidden" name="idx" value="<%=dto.getIdx()%>">
+<input type="hidden" name="check" value="false">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td><img src="images/ceil.gif" width="603" height="25"></td>

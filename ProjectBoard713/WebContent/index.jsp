@@ -2,10 +2,12 @@
 <%@page import="board.common.PageUtil"%>
 <%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
-<%! PageUtil pg = new PageUtil(); %>
+<%! PageUtil pg = new PageUtil();%>
 <%
-   List<BoardDTO> list = (List)request.getAttribute("index");
+   List<BoardDTO> list = (List<BoardDTO>)request.getAttribute("index");
+if(list != null){
    pg.init(list.size(), request);
+}
 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -14,17 +16,10 @@
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
-@IMPORT url("WebContent/site.css");
 </style>
-<script>
-  /*
-  	function init(){
-      list.action();
-   } 
-  */
-</script>
+
 </head>
-<body onload="init()">
+<body>
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -49,7 +44,7 @@
          int num = pg.getNum();
          int curPos = pg.getCurPos(); 
       %>
-        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" >
         <% for(int i=1; i<=pg.getPageSize(); i++){ %>
         <%if(num<1) break; %>
         <%BoardDTO dto = list.get(curPos++); %>

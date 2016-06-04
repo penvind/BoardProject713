@@ -19,30 +19,30 @@ public class BoardService {
 		return instance;
 	}
 	
-	public List selectAll() throws Exception{
-		List list = null;
-		list = dao.selectAll();
-		return list;
+	/**
+	 * get list
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BoardDTO> selectAll() throws Exception{
+		return dao.selectAll();
 	}
 	
 	public BoardDTO selectByIdx(int idx) throws Exception{
-		BoardDTO dto = null;
-		dto = dao.selectByIdx(idx);
-		
-		return dto;
+		return  dao.selectByIdx(idx);
 	}
 	
 	public int insert(BoardDTO dto) throws Exception{
-		int result = 0;
-		result = dao.insert(dto);
-		return result;
+		return dao.insert(dto);
 	}
 	
 	public int delete(int idx) throws Exception{
-		int result = 0;
-		result = dao.delete(idx);
-		return result;
-		
+		return dao.delete(idx);
+	}
+	
+	public int update(BoardDTO dto) throws Exception{
+		return dao.update(dto);
 	}
 	
 }

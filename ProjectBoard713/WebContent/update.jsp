@@ -1,17 +1,12 @@
-<%@page import="model.BoardDTO"%>
-<%@page import="model.BoardDAO"%>
+<%@page import="board.model.BoardDTO"%>
+<%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%! BoardDAO dao = new BoardDAO(); %>
 <% 
-	
-	int idx = Integer.parseInt(request.getParameter("idx"));
-	
-	//	out.print(idx);
-	BoardDTO dto = dao.selectByIdx(idx); 
-
+	BoardDTO dto = (BoardDTO)request.getAttribute("dto");
 %>
 <html>
+
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -38,28 +33,47 @@ border:#C3C3C3 1px solid
 </style>
 <script>
 
-function commit(){
- 	if(form1.writer.value==""){
-		alert("writer 비어있음!");
-		form1.writer.focus();
-		return;
-	}else if(form1.title.value==""){
-		alert("title 비어있음!");
-		form1.title.focus();
-		return;
-	}else if(form1.content.value==""){
-		alert("content 비어있음!");
-		form1.content.focus();
-		return;
+var flag = false;
+
+function confirmCheck(){
+	if(confirm("수정하시겠습니까?")){
+		flag = !flag;
+		log.d("confirm chek");
 	}
-		form1.action="update_act.jsp"; 
+	return flag;
+}
+
+
+function commit(){
+	if(confirmCheck()){
+	 	if(form1.writer.value==""){
+			alert("writer 비어있음!");
+			form1.writer.focus();
+			return;
+		}else if(form1.title.value==""){
+			alert("title 비어있음!");
+			form1.title.focus();
+			return;
+		}else if(form1.content.value==""){
+			alert("content 비어있음!");
+			form1.content.focus();
+			return;
+		}
+	 	log.d(confirmCheck());
+		form1.action="update.do"; 
 		form1.submit();
+	}else{
+		alert("수정이 취소되었습니다.");
+		history.back();
+	}
+
 }
 </script>
 </head>
 <body>
 <form name="form1" method="post">
-<input type="hidden" name="idx" value="<%=idx%>">
+<input type="hidden" name="idx" value="<%=dto.getIdx()%>">
+<input type="hidden" name="check" value="true">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td><img src="images/ceil.gif" width="603" height="25"></td>
@@ -97,7 +111,7 @@ function commit(){
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
 	<button onclick="commit()"> 수정 </button>
-	<a href="index.jsp"><img src="images/list_btn.gif" width="61" height="20"></a>	</td>
+	<a href="index.do"><img src="images/list_btn.gif" width="61" height="20"></a>	</td>
   </tr>
   <tr>
     <td height="1" bgcolor="#CCCCCC"></td>
