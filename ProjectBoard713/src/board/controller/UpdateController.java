@@ -29,7 +29,7 @@ public class UpdateController implements Controller{
 				dto.setContent(req.getParameter("content"));
 				
 				service.update(dto);
-				resultKey = "/result/update";
+				resultKey = "/result/updatePage";
 				System.out.println("true resultKey : " + resultKey);
 			}else if(check == null){
 				resultKey = "/result/updatePage";

@@ -31,7 +31,48 @@ border:#C3C3C3 1px solid
 }
 #copyright{font-size:9pt;}
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
+
+$(document).ready(function(){
+	$("#button").click(function(){
+		callAjax();
+	});
+});
+
+
+function callAjax(){
+	// var boardData = $("form1").serialize();
+	$.ajax({
+			type : "post",
+			url 	: "update.do",
+			data : {
+					idx : $('#idx').val(),
+					title : $('#title').val(),
+					writer : $('#writer').val(),
+					content : $('#content').val()
+			},
+/* 			
+ */
+			success : whenSuccess,
+			error : whenError
+	});
+}
+
+function whenSuccess(resdata){
+	return false;
+	$("#ajaxReturn").html(resdata);
+	console.log();
+}
+
+function whenError(){
+	alert("Error");	
+}
+
+
+
+
+
 
 var flag = false;
 
@@ -42,7 +83,7 @@ function confirmCheck(){
 	}
 	return flag;
 }
-
+/* 
 
 function commit(){
 	if(confirmCheck()){
@@ -66,13 +107,13 @@ function commit(){
 		alert("수정이 취소되었습니다.");
 		history.back();
 	}
-
 }
+ */
 </script>
 </head>
 <body>
-<form name="form1" method="post">
-<input type="hidden" name="idx" value="<%=dto.getIdx()%>">
+<form id="form1" method="post">
+<input type="hidden" name="idx" id="idx" value="<%=dto.getIdx()%>">
 <input type="hidden" name="check" value="true">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -92,11 +133,11 @@ function commit(){
           </tr>
           <tr id="writer">
             <td height="25" align="center">작성자</td>
-            <td><input type="text" name="writer" value="<%=dto.getWriter()%>" ></td>
+            <td><input type="text" name="writer" id="writer" value="<%=dto.getWriter()%>" ></td>
           </tr>
           <tr id="title">
             <td height="25" align="center">제목</td>
-            <td><input type="text" name="title"  value="<%=dto.getTitle()%> " ></td>
+            <td><input type="text" name="title" id="title" value="<%=dto.getTitle()%> " ></td>
           </tr>
           <tr id="content">
             <td align="center">내용</td>
@@ -110,7 +151,7 @@ function commit(){
 	</tr>
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
-	<button onclick="commit()"> 수정 </button>
+	<button onclick="callAjax()"> 수정 </button>
 	<a href="index.do"><img src="images/list_btn.gif" width="61" height="20"></a>	</td>
   </tr>
   <tr>
