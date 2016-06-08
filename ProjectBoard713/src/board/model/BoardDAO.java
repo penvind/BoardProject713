@@ -173,4 +173,35 @@ public class BoardDAO {
 		return result;
 	}
 	
+	public List<BoardDTO> selectSearch(String keyColumn, String keyword) throws Exception{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		try {
+			String sql = "select * from boardproject.board order by idx desc where ? like %?%";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, keyColumn);
+			pstmt.setString(1, keyword);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setIdx				(rs.getInt("idx"));
+				dto.setWriter			(rs.getString("writer"));
+				dto.setTitle				(rs.getString("title"));
+				dto.setRegdate		(rs.getString("regdate"));
+				dto.setHit				(rs.getInt("hit"));
+				
+				list.add(dto);				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 }

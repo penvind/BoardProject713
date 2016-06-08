@@ -21,6 +21,11 @@ public class BoardService {
 	
 	/**
 	 * get list
+	 * get detail
+	 * write
+	 * delete
+	 * update
+	 * get searchList
 	 * 
 	 * @return
 	 * @throws Exception
@@ -45,4 +50,7 @@ public class BoardService {
 		return dao.update(dto);
 	}
 	
+	public List<BoardDTO> selectSearch(String keyColumn, String keyword) throws Exception{
+		return dao.selectSearch(keyColumn, keyword);
+	}
 }

@@ -8,12 +8,14 @@
 /detail.do = board.controller.DetailController
 /delete.do = board.controller.DeleteController
 /update.do = board.controller.UpdateController
+/search.do = board.controller.SearchController
 
 #게시판 뷰 매핑 (포워드)
 /result/index = /index.jsp
 /result/detail = /detail.jsp
 /result/updatePage = /update.jsp
 /result/update = /detail.jsp
+/result/search = /index.jsp
 
 #게시판 뷰 매핑(리다이렉트)
 /result/write = /index.do	

@@ -52,6 +52,8 @@ function callAjax(){
 					writer : $('#writer').val(),
 					content : $('#content').val()
 			},
+			async : true,
+			
 /* 			
  */
 			success : whenSuccess,
@@ -59,9 +61,9 @@ function callAjax(){
 	});
 }
 
-function whenSuccess(resdata){
+function whenSuccess(data){
 	return false;
-	$("#ajaxReturn").html(resdata);
+	$("#ajaxReturn").html(data);
 	console.log();
 }
 
@@ -151,7 +153,7 @@ function commit(){
 	</tr>
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
-	<button onclick="callAjax()"> 수정 </button>
+	<button> 수정 </button>
 	<a href="index.do"><img src="images/list_btn.gif" width="61" height="20"></a>	</td>
   </tr>
   <tr>

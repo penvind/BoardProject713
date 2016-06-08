@@ -17,9 +17,48 @@ if(list != null){
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	$("#searchBtn").click(function(){
+		callAjax();
+	});
+});
+
+
+function callAjax(){
+	$.ajax({
+			type : "get",
+			url 	: "search.do",
+			data : {
+				keyColumn : $("#keyColumn option:selected").val(),
+				keyword : $('#keyword').val(),
+			},
+			async : true,
+			success : whenSuccess,
+			error : whenError
+	});
+}
+
+function whenSuccess(resData){
+	if(resData == 'false'){
+		alert("data false");
+		console.log("check");
+	}else{
+		alert("data true")
+	}
+}
+
+function whenError(){
+	alert("Error");	
+}
+
+</script>
 
 </head>
 <body>
+<form name="form1">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -65,12 +104,12 @@ if(list != null){
   <tr>
    
     <td id="paging" height="20" colspan="5" align="center">  
-       <a href="index.jsp?CurrentPage=<%=pg.getFirstBlock()-1%>"> ◀ </a>
+       <a href="index.do?CurrentPage=<%=pg.getFirstBlock()-1%>"> ◀ </a>
        <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %>
           <%if(i>pg.getTotalPage()) break; %>
-          <a href="index.jsp?CurrentPage=<%=i%>">[<%=i%>]</a> 
+          <a href="index.do?CurrentPage=<%=i%>">[<%=i%>]</a> 
          <% } %>
-         <a href="index.jsp?CurrentPage=<%=pg.getLastBlock()+1%>"> ▶ </a> 
+         <a href="index.do?CurrentPage=<%=pg.getLastBlock()+1%>"> ▶ </a> 
       </td>
      
   </tr>
@@ -79,14 +118,14 @@ if(list != null){
    <table width="160" border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td width="70">
-          <select name="select" id="category">
-            <option>제목</option>
+          <select name="select" id="keyColumn">
+            <option selected>제목</option>
             <option>내용</option>
             <option>글쓴이</option>
           </select>        </td>
         <td width="80">
           <input name="textfield" id="keyword" type="text" size="15">        </td>
-        <td><img src="images/search_btn.gif" width="32" height="17"></td>
+        <td><input type="button" id="searchBtn" value="검색"></td>
       </tr>
     </table></td>
   </tr>
@@ -100,5 +139,6 @@ if(list != null){
     <td height="20" colspan="5" align="center" id="copyright">Copyright  All Rights Reserved </td>
   </tr>
 </table>
+</form>
 </body>
 </html>
