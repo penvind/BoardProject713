@@ -4,9 +4,10 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <%! PageUtil pg = new PageUtil();%>
 <%
+
    List<BoardDTO> list = (List<BoardDTO>)request.getAttribute("index");
 if(list != null){
-   pg.init(list.size(), request);
+   pg.init(list.size(), request, request.getParameter("keyword"));
 }
 
 %>
@@ -19,9 +20,10 @@ if(list != null){
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-
+/* 
 $(document).ready(function(){
 	$("#searchBtn").click(function(){
+		alert($("#keyColumn option:selected").val() +" / "+ $('#keyword').val());
 		callAjax();
 	});
 });
@@ -29,8 +31,8 @@ $(document).ready(function(){
 
 function callAjax(){
 	$.ajax({
-			type : "get",
-			url 	: "search.do",
+			type : "POST",
+			url 	: "index.do",
 			data : {
 				keyColumn : $("#keyColumn option:selected").val(),
 				keyword : $('#keyword').val(),
@@ -46,19 +48,25 @@ function whenSuccess(resData){
 		alert("data false");
 		console.log("check");
 	}else{
-		alert("data true")
+		alert("data true");
 	}
 }
 
 function whenError(){
 	alert("Error");	
 }
+ */
+
+function search(){
+	form1.action="search.do"; 
+	form1.submit();
+}
 
 </script>
 
 </head>
 <body>
-<form name="form1">
+<form id="form1" method="post">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -118,14 +126,14 @@ function whenError(){
    <table width="160" border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td width="70">
-          <select name="select" id="keyColumn">
-            <option selected>제목</option>
-            <option>내용</option>
-            <option>글쓴이</option>
+          <select name="keyColumn" id="keyColumn">
+            <option selected="selected">title</option>
+            <option>content</option>
+            <option>writer</option>
           </select>        </td>
         <td width="80">
-          <input name="textfield" id="keyword" type="text" size="15">        </td>
-        <td><input type="button" id="searchBtn" value="검색"></td>
+          <input name="keyword" id="keyword" type="text" size="15" value="<%=pg.getKeyword() %>"></td>
+        <td><input type="button" id="searchBtn" value="검색" onClick="search()"></td>
       </tr>
     </table></td>
   </tr>

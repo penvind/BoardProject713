@@ -21,15 +21,14 @@ public class SearchController implements Controller {
 	public String execute(HttpServletRequest req) throws ServletException,
 			IOException {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
-		keyColumn = req.getParameter(keyColumn);
-		keyword = req.getParameter(keyword);
+		keyColumn = req.getParameter("keyColumn");
+		keyword = req.getParameter("keyword");
 		
-		System.out.println("keyColum : " + keyColumn);
-		System.out.println("keyword : " + keyword);
-
 		try {
 			list = service.selectSearch(keyColumn, keyword);
-			resultKey = "result/search";
+			System.out.println("sarchController list data : " + list);
+			resultKey = "/result/search";
+			req.setAttribute("keyword", keyword);
 			req.setAttribute("index", list);
 		} catch (Exception e) {
 			e.printStackTrace();

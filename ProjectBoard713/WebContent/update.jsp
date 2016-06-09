@@ -53,18 +53,15 @@ function callAjax(){
 					content : $('#content').val()
 			},
 			async : true,
-			
-/* 			
- */
 			success : whenSuccess,
 			error : whenError
 	});
 }
 
 function whenSuccess(data){
-	return false;
+	console.log("resData : " + resData);
 	$("#ajaxReturn").html(data);
-	console.log();
+	return false;
 }
 
 function whenError(){

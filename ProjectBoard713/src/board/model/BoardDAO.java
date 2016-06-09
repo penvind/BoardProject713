@@ -177,17 +177,24 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+		System.out.println("keyColum : " + keyColumn);
+		System.out.println("keyword : " + keyword);
+		
+		String sql = "select * from boardproject.board where "+ keyColumn +" like '%"+ keyword +"%' order by idx desc";
 		
 		try {
-			String sql = "select * from boardproject.board order by idx desc where ? like %?%";
-			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, keyColumn);
-			pstmt.setString(1, keyword);
+//			pstmt.setString(1, keyColumn);
+//			pstmt.setString(1, keyword);
+			System.out.println(sql);
+			
+			System.out.println("search pstmt : " + pstmt);
 
 			rs = pstmt.executeQuery();
 			
+			
 			while(rs.next()){
+				System.out.println("resultSet : " + rs);
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setIdx				(rs.getInt("idx"));
@@ -196,10 +203,26 @@ public class BoardDAO {
 				dto.setRegdate		(rs.getString("regdate"));
 				dto.setHit				(rs.getInt("hit"));
 				
-				list.add(dto);				
+				list.add(dto);		
+				System.out.println("list data : "+ list);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			if(pstmt != null){
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return list;
 	}

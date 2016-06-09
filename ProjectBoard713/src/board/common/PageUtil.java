@@ -14,9 +14,10 @@ public class PageUtil {
 	private int LastBlock;
 	private int curPos;
 	private int num;
+	private String keyword = "test";
 	
 	
-	public void init(int TotalRecord, HttpServletRequest req){
+	public void init(int TotalRecord, HttpServletRequest req, String keyword){
 		this.TotalRecord = TotalRecord;  //게시글의 총 개수
 		TotalPage =  (int) Math.ceil((float)TotalRecord/PageSize);		   // 게시글 총 개수 % 한페이지에 보여질 블록 개수 
 		
@@ -24,10 +25,21 @@ public class PageUtil {
 			CurrentPage = Integer.parseInt(req.getParameter("CurrentPage"));
 		}
 		
+		this.keyword = keyword;
+		keyword = "test";
+		
 		FirstBlock = CurrentPage - ((CurrentPage-1) % BlockSize);       
 		LastBlock  = FirstBlock + (BlockSize-1);                       
 		curPos = (CurrentPage-1) * PageSize;
 		num    = TotalRecord - curPos;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public int getTotalRecord() {
