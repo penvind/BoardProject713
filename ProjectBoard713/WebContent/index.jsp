@@ -3,15 +3,7 @@
 <%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- <%! PageUtil pg = new PageUtil();%>
-<%
 
-   List<BoardDTO> list = (List<BoardDTO>)request.getAttribute("index");
-if(list != null){
-   pg.init(list.size(), request, request.getParameter("keyword"));
-}
-
-%> --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -57,6 +49,12 @@ function whenError(){
 	alert("Error");	
 }
  */
+ 
+ function paging(curPage){
+	document.getElementById("curPage").value = curPage;
+	form1.action="index.do"; 
+	form1.submit();
+}
 
 function search(){
 	form1.action="search.do"; 
@@ -68,6 +66,7 @@ function search(){
 </head>
 <body>
 <form id="form1" method="post">
+<input type="text" name="curPage" id="curPage" value="">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -115,12 +114,12 @@ function search(){
   <tr>
    
     <td id="paging" height="20" colspan="5" align="center">  
-       <a href="index.do?CurrentPage=1"> ◀ </a>
+       <a href="index.do?CurrentPage="> ◀ </a> <!-- pg.getFirstBlock()-1 -->
        <%-- <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %> --%>
-          <%-- <%if(i>pg.getTotalPage()) break; %> --%>
-          <a href="index.do?CurrentPage=1">[1]</a> 
+          <%-- <%if(i>pg.getTotalPage()) break; %>	 --%>
+          <a href="#" onClick="paging()">[]</a> 
          <%-- <% } %> --%>
-         <a href="index.do?CurrentPage=10"> ▶ </a> 
+         <a href="index.do?CurrentPage="> ▶ </a> 
       </td>
      
   </tr>
@@ -130,7 +129,7 @@ function search(){
       <tr>
         <td width="70">
           <select name="keyColumn" id="keyColumn">
-            <option selected="selected">title</option>
+            <option>title</option>
             <option>content</option>
             <option>writer</option>
           </select>        </td>
