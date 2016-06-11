@@ -2,17 +2,16 @@
 <%@page import="board.common.PageUtil"%>
 <%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
-<%! PageUtil pg = PageUtil.getInstance();%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%! PageUtil pg = new PageUtil();%>
 <%
 
    List<BoardDTO> list = (List<BoardDTO>)request.getAttribute("index");
-/* 
 if(list != null){
    pg.init(list.size(), request, request.getParameter("keyword"));
 }
- */
 
-%>
+%> --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -58,30 +57,17 @@ function whenError(){
 	alert("Error");	
 }
  */
- 
- function init(){
-	 var selectSearch = <%pg.getKeyColumn();%>
-	 console.log(selectSearch);
-	 $("#selectBox").val(selectSearch).attr("selected", "selected");
- }
 
 function search(){
-	form1.action="index.do"; 
+	form1.action="search.do"; 
 	form1.submit();
 }
- 
- function paging(curPage){
-	document.getElementById("curPage").value = curPage;
-	form1.action="index.do"; 
-	form1.submit();
- }
 
 </script>
 
 </head>
-<body onLoad="init()">
+<body>
 <form id="form1" method="post">
-<input type="text" name="curPage" id="curPage" value="<%=pg.getCurrentPage()%>">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -102,22 +88,24 @@ function search(){
   </tr>
    <tr>   
       <td colspan="5" id="list">
-      <%
+      <%-- <%
          int num = pg.getNum();
          int curPos = pg.getCurPos(); 
-      %>
+      %> --%>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" >
-        <% for(int i=1; i<=pg.getPageSize(); i++){ %>
+        <c:forEach items="${index }" var="vo">
+        <%-- <% for(int i=1; i<=pg.getPageSize(); i++){ %>
         <%if(num<1) break; %>
-        <%BoardDTO dto = list.get(curPos++); %>
+        <%BoardDTO dto = list.get(curPos++); %> --%>
           <tr align="center" height="20px" onMouseOver="this.style.background='#FFFF99'" onMouseOut="this.style.background=''">
-           <td width="50"><%=num--%></td>
-           <td width="303"><a href="detail.do?idx=<%=dto.getIdx() %>"><%=dto.getTitle() %></a></td>
-           <td width="100"><%=dto.getWriter() %></td>
-           <td width="100"><%=dto.getRegdate() %></td>
-           <td width="50"><%=dto.getHit() %></td>
+           <td width="50">${vo.idx }</td>
+           <td width="303"><a href="detail.do?idx=${vo.idx }">${vo.title }</a></td>
+           <td width="100">${vo.writer }</td>
+           <td width="100">${vo.regdate }</td>
+           <td width="50">${vo.hit }</td>
           </tr>
-         <% } %>
+         <%-- <% } %> --%>
+         </c:forEach>
          <tr>
             <td height="1" colspan="5" background="images/line_dot.gif"></td>
          </tr>
@@ -127,12 +115,12 @@ function search(){
   <tr>
    
     <td id="paging" height="20" colspan="5" align="center">  
-       <a href="index.do?CurrentPage=<%=pg.getFirstBlock()-1%>"> ◀ </a>
-       <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %>
-          <%if(i>pg.getTotalPage()) break; %>	
-          <a href="#" onClick="paging(<%=i%>)">[<%=i%>]</a> 
-         <% } %>
-         <a href="index.do?CurrentPage=<%=pg.getLastBlock()+1%>"> ▶ </a> 
+       <a href="index.do?CurrentPage=1"> ◀ </a>
+       <%-- <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %> --%>
+          <%-- <%if(i>pg.getTotalPage()) break; %> --%>
+          <a href="index.do?CurrentPage=1">[1]</a> 
+         <%-- <% } %> --%>
+         <a href="index.do?CurrentPage=10"> ▶ </a> 
       </td>
      
   </tr>
@@ -142,12 +130,12 @@ function search(){
       <tr>
         <td width="70">
           <select name="keyColumn" id="keyColumn">
-            <option>title</option>
+            <option selected="selected">title</option>
             <option>content</option>
             <option>writer</option>
           </select>        </td>
         <td width="80">
-          <input name="keyword" id="keyword" type="text" size="15" value="<%=pg.getKeyword() %>"></td>
+          <input name="keyword" id="keyword" type="text" size="15" value="keyword"></td>
         <td><input type="button" id="searchBtn" value="검색" onClick="search()"></td>
       </tr>
     </table></td>
