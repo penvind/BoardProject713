@@ -2,13 +2,15 @@
 <%@page import="board.common.PageUtil"%>
 <%@page import="board.model.BoardDTO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
-<%! PageUtil pg = new PageUtil();%>
+<%! PageUtil pg = PageUtil.getInstance();%>
 <%
 
    List<BoardDTO> list = (List<BoardDTO>)request.getAttribute("index");
+/* 
 if(list != null){
    pg.init(list.size(), request, request.getParameter("keyword"));
 }
+ */
 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -56,17 +58,30 @@ function whenError(){
 	alert("Error");	
 }
  */
+ 
+ function init(){
+	 var selectSearch = <%pg.getKeyColumn();%>
+	 console.log(selectSearch);
+	 $("#selectBox").val(selectSearch).attr("selected", "selected");
+ }
 
 function search(){
-	form1.action="search.do"; 
+	form1.action="index.do"; 
 	form1.submit();
 }
+ 
+ function paging(curPage){
+	document.getElementById("curPage").value = curPage;
+	form1.action="index.do"; 
+	form1.submit();
+ }
 
 </script>
 
 </head>
-<body>
+<body onLoad="init()">
 <form id="form1" method="post">
+<input type="text" name="curPage" id="curPage" value="<%=pg.getCurrentPage()%>">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5"><img src="images/ceil.gif" width="603" height="25"></td>
@@ -114,8 +129,8 @@ function search(){
     <td id="paging" height="20" colspan="5" align="center">  
        <a href="index.do?CurrentPage=<%=pg.getFirstBlock()-1%>"> ◀ </a>
        <% for(int i=pg.getFirstBlock(); i<=pg.getLastBlock(); i++){ %>
-          <%if(i>pg.getTotalPage()) break; %>
-          <a href="index.do?CurrentPage=<%=i%>">[<%=i%>]</a> 
+          <%if(i>pg.getTotalPage()) break; %>	
+          <a href="#" onClick="paging(<%=i%>)">[<%=i%>]</a> 
          <% } %>
          <a href="index.do?CurrentPage=<%=pg.getLastBlock()+1%>"> ▶ </a> 
       </td>
@@ -127,7 +142,7 @@ function search(){
       <tr>
         <td width="70">
           <select name="keyColumn" id="keyColumn">
-            <option selected="selected">title</option>
+            <option>title</option>
             <option>content</option>
             <option>writer</option>
           </select>        </td>

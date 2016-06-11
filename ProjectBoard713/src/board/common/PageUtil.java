@@ -1,10 +1,9 @@
 package board.common;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class PageUtil {
-	
+	private static PageUtil instance;
 	private int TotalRecord;
 	private int PageSize = 10;        //한 페이지당 보여질 글의 개수
 	private int CurrentPage = 1;    //현재 페이지
@@ -14,24 +13,40 @@ public class PageUtil {
 	private int LastBlock;
 	private int curPos;
 	private int num;
-	private String keyword = "test";
+	private String keyword = "";
+	private String keyColumn = "title";
 	
 	
-	public void init(int TotalRecord, HttpServletRequest req, String keyword){
+	public static PageUtil getInstance() {
+		if(instance == null){
+			instance = new PageUtil();
+		}
+		return instance;
+	}
+
+	public void init(int TotalRecord, HttpServletRequest req, String keyword, String  keyColumn, int CurrentPage){
 		this.TotalRecord = TotalRecord;  //게시글의 총 개수
 		TotalPage =  (int) Math.ceil((float)TotalRecord/PageSize);		   // 게시글 총 개수 % 한페이지에 보여질 블록 개수 
-		
-		if(req.getParameter("CurrentPage") != null){
-			CurrentPage = Integer.parseInt(req.getParameter("CurrentPage"));
+		System.out.println("넘겨받은 keyword 값 : " + keyword);
+
+		this.CurrentPage = CurrentPage;
+		if(keyword != null) {
+			this.keyword = keyword;
 		}
-		
-		this.keyword = keyword;
-		keyword = "test";
+		this.keyColumn = keyColumn;
 		
 		FirstBlock = CurrentPage - ((CurrentPage-1) % BlockSize);       
 		LastBlock  = FirstBlock + (BlockSize-1);                       
 		curPos = (CurrentPage-1) * PageSize;
 		num    = TotalRecord - curPos;
+	}
+
+	public String getKeyColumn() {
+		return keyColumn;
+	}
+
+	public void setKeyColumn(String keyColumn) {
+		this.keyColumn = keyColumn;
 	}
 
 	public String getKeyword() {

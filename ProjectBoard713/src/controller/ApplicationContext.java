@@ -47,24 +47,24 @@ public class ApplicationContext extends HttpServlet{
 		
 		// 요청에 해당하는 컨트롤러 검색
 		String uri 					= req.getRequestURI();
-		System.out.println("uri : " + uri);
+//		System.out.println("uri : " + uri);
 		String controllerName 	= props.getProperty(uri);
-		System.out.println("controllerName : "+controllerName);
+//		System.out.println("controllerName : "+controllerName);
 		Class controllerClass 	= null;
 		
 		try {
 			controllerClass 		= Class.forName(controllerName);
-			System.out.println("controllerClass : " + controllerClass);
+//			System.out.println("controllerClass : " + controllerClass);
 			Controller controller 	= (Controller) controllerClass.newInstance();
 			String resultKey 		= controller.execute(req);
 			String resultPage 		= props.getProperty(resultKey);		// key값으로 검색
 
-			System.out.println("controller : " + controller);
+//			System.out.println("controller : " + controller);
 //			System.out.println("req" + req);
 //			System.out.println("res" + res);
 
-			System.out.println("resultKey : "+ resultKey);
-			System.out.println("resultPage : "+ resultPage);
+//			System.out.println("resultKey : "+ resultKey);
+//			System.out.println("resultPage : "+ resultPage);
 			
 			if(resultPage.equals(null)) System.out.println("resultPage 값이 없음");
 			

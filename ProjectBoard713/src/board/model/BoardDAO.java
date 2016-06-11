@@ -186,15 +186,15 @@ public class BoardDAO {
 			pstmt = con.prepareStatement(sql);
 //			pstmt.setString(1, keyColumn);
 //			pstmt.setString(1, keyword);
-			System.out.println(sql);
+//			System.out.println(sql);
 			
-			System.out.println("search pstmt : " + pstmt);
+//			System.out.println("search pstmt : " + pstmt);
 
 			rs = pstmt.executeQuery();
 			
 			
 			while(rs.next()){
-				System.out.println("resultSet : " + rs);
+//				System.out.println("resultSet : " + rs);
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setIdx				(rs.getInt("idx"));
@@ -204,7 +204,7 @@ public class BoardDAO {
 				dto.setHit				(rs.getInt("hit"));
 				
 				list.add(dto);		
-				System.out.println("list data : "+ list);
+//				System.out.println("list data : "+ list);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
