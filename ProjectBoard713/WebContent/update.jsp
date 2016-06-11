@@ -2,9 +2,6 @@
 <%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<% 
-	BoardDTO dto = (BoardDTO)request.getAttribute("dto");
-%>
 <html>
 
 <head>
@@ -112,7 +109,7 @@ function commit(){
 </head>
 <body>
 <form id="form1" method="post">
-<input type="hidden" name="idx" id="idx" value="<%=dto.getIdx()%>">
+<input type="hidden" name="idx" id="idx" value="${dto.idx }">
 <input type="hidden" name="check" value="true">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -132,15 +129,15 @@ function commit(){
           </tr>
           <tr id="writer">
             <td height="25" align="center">작성자</td>
-            <td><input type="text" name="writer" id="writer" value="<%=dto.getWriter()%>" ></td>
+            <td><input type="text" name="writer" id="writer" value="${dto.writer }" ></td>
           </tr>
           <tr id="title">
             <td height="25" align="center">제목</td>
-            <td><input type="text" name="title" id="title" value="<%=dto.getTitle()%> " ></td>
+            <td><input type="text" name="title" id="title" value="${dto.title } " ></td>
           </tr>
           <tr id="content">
             <td align="center">내용</td>
-            <td><textarea name="content" style="" ><%=dto.getContent() %></textarea></td>
+            <td><textarea name="content" style="" >${dto.content }</textarea></td>
           </tr>
           <tr>
             <td>&nbsp;</td>

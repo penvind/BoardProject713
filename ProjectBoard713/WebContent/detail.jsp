@@ -2,11 +2,6 @@
 <%@page import="board.model.BoardDAO"%>
 <%@ page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<% 
-	BoardDTO dto = (BoardDTO)request.getAttribute("dto");
-%>
-
 <html>
 <head>
 <title>Untitled Document</title>
@@ -37,14 +32,14 @@ img{border:0px}
 <script>
 	function deleteCheck(){
 		if(confirm("정말 삭제하시겠습니까?")){
-			 location.href="/delete.do?idx=<%=dto.getIdx()%>";
+			 location.href="/delete.do?idx=${dto.idx}";
 		}
 	}
 </script>
 </head>
 <body>
 <form name="form1" method="post">
-<input type="hidden" name="idx" value="<%=dto.getIdx()%>">
+<input type="hidden" name="idx" value="${dto.idx }">
 <input type="hidden" name="check" value="false">
 <table id="box" align="center" width="603" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -64,15 +59,15 @@ img{border:0px}
           </tr>
           <tr id="writer">
             <td height="25" align="center">작성자</td>
-            <td><input type="text" name="writer" value="<%=dto.getWriter()%>" readonly></td>
+            <td><input type="text" name="writer" value="${dto.writer }" readonly></td>
           </tr>
           <tr id="title">
             <td height="25" align="center">제목</td>
-            <td><input type="text" name="title"  value="<%=dto.getTitle()%>" readonly></td>
+            <td><input type="text" name="title"  value="${dto.title }" readonly></td>
           </tr>
           <tr id="content">
             <td align="center">내용</td>
-            <td><textarea name="content" style="" disabled="disabled"><%=dto.getContent() %></textarea></td>
+            <td><textarea name="content" style="" disabled="disabled">${dto.content }</textarea></td>
           </tr>
           <tr>
             <td>&nbsp;</td>
@@ -82,7 +77,7 @@ img{border:0px}
 	</tr>
   <tr>
     <td height="30" align="right" style="padding-right:2px;">
-	<a href="update.do?idx=<%=dto.getIdx()%>"><img src="images/edit_btn.gif" width="61" height="20"></a>
+	<a href="update.do?idx=${dto.idx }"><img src="images/edit_btn.gif" width="61" height="20"></a>
 	<img src="images/delete_btn.gif" width="61" height="20" onClick="deleteCheck()">
 	<a href="index.do"><img src="images/list_btn.gif" width="61" height="20" border="0"></a> </td>
   </tr>
